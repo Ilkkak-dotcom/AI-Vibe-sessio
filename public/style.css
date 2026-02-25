@@ -45,6 +45,22 @@ header {
   align-items: center;
   justify-content: space-between;
 }
+.header-right { display: flex; align-items: center; gap: 12px; }
+.lang-select {
+  padding: 7px 10px;
+  border: 1.5px solid rgba(255,255,255,.2);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--transition), background var(--transition);
+}
+.lang-select:hover { border-color: rgba(255,255,255,.4); background: rgba(255,255,255,.12); }
+.lang-select:focus { border-color: var(--primary); }
+.lang-select option { background: #1a1f2e; color: #fff; }
 .logo { display: flex; align-items: center; gap: 10px; }
 .logo-icon { font-size: 26px; }
 .logo-text { font-size: 20px; font-weight: 700; color: #ffffff; letter-spacing: -.3px; }

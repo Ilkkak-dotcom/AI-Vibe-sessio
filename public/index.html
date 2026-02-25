@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,7 +13,14 @@
         <span class="logo-icon">🔧</span>
         <span class="logo-text">AutoVarasto</span>
       </div>
-      <button class="btn btn-primary" id="openAddModal">+ Lisää tuote</button>
+      <div class="header-right">
+        <select id="langSelect" class="lang-select" aria-label="Valitse kieli / Välj språk / 选择语言">
+          <option value="fi">🇫🇮 Suomi</option>
+          <option value="sv">🇸🇪 Svenska</option>
+          <option value="zh">🇨🇳 中文</option>
+        </select>
+        <button class="btn btn-primary" id="openAddModal">+ Lisää tuote</button>
+      </div>
     </div>
   </header>
 
@@ -84,7 +91,7 @@
         <h2>Poista tuote</h2>
         <button class="modal-close" id="closeDeleteModal">✕</button>
       </div>
-      <p class="delete-message">Haluatko varmasti poistaa tuotteen <strong id="deleteProductName"></strong>? Toimintoa ei voi peruuttaa.</p>
+      <p id="deleteMessage" class="delete-message"><strong id="deleteProductName"></strong></p>
       <div class="form-actions">
         <button class="btn btn-secondary" id="cancelDelete">Peruuta</button>
         <button class="btn btn-danger" id="confirmDelete">Poista</button>
