@@ -206,6 +206,7 @@ function applyLanguage() {
 /* ---- State ---- */
 let products = [];
 let deleteTargetId = null;
+const DEFAULT_PRODUCT_IMAGE = 'https://placehold.co/600x360?text=Tuotekuva';
 
 /* ---- DOM refs ---- */
 const productGrid = document.getElementById('productGrid');
@@ -230,6 +231,10 @@ function qtyClass(qty) {
   if (qty === 0) return 'low';
   if (qty < 5) return 'medium';
   return 'ok';
+}
+
+function productImageUrl(product) {
+  return product?.imageUrl?.trim() || DEFAULT_PRODUCT_IMAGE;
 }
 
 /* ---- API calls ---- */
@@ -281,10 +286,14 @@ function renderProducts() {
   products.forEach(p => {
     const desc = translateDesc(p.description);
     const category = translateCategory(p.category);
+    const imageUrl = escHtml(productImageUrl(p));
     const card = document.createElement('div');
     card.className = 'product-card';
     card.dataset.id = p.id;
     card.innerHTML = `
+      <div class="product-image-wrap">
+        <img class="product-image" src="${imageUrl}" alt="${escHtml(p.name)}" loading="lazy" />
+      </div>
       <div class="card-header">
         <span class="card-title">${escHtml(p.name)}</span>
         <div class="card-actions">
@@ -373,6 +382,7 @@ addForm.addEventListener('submit', async (e) => {
     quantity: parseInt(document.getElementById('prodQuantity').value),
     price: parseFloat(document.getElementById('prodPrice').value),
     description: document.getElementById('prodDescription').value.trim(),
+    imageUrl: document.getElementById('prodImageUrl').value.trim(),
   };
   try {
     await apiFetch('/api/products', { method: 'POST', body: JSON.stringify(body) });

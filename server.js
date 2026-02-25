@@ -5,6 +5,15 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+function serializeProduct(row) {
+  if (!row) return row;
+  const { image_url, ...rest } = row;
+  return {
+    ...rest,
+    imageUrl: image_url || '',
+  };
+}
+
 // Database setup
 const db = new Database(path.join(__dirname, 'inventory.db'));
 
@@ -15,15 +24,21 @@ db.exec(`
     category TEXT NOT NULL,
     quantity INTEGER NOT NULL DEFAULT 0,
     price REAL NOT NULL DEFAULT 0,
-    description TEXT
+    description TEXT,
+    image_url TEXT
   );
 `);
+
+const columns = db.prepare('PRAGMA table_info(products)').all();
+if (!columns.some(c => c.name === 'image_url')) {
+  db.exec('ALTER TABLE products ADD COLUMN image_url TEXT');
+}
 
 // Seed with 20 products if table is empty
 const count = db.prepare('SELECT COUNT(*) as count FROM products').get();
 if (count.count === 0) {
   const insert = db.prepare(
-    'INSERT INTO products (name, category, quantity, price, description) VALUES (?, ?, ?, ?, ?)'
+    'INSERT INTO products (name, category, quantity, price, description, image_url) VALUES (?, ?, ?, ?, ?, NULL)'
   );
   const products = [
     ['Öljynsuodatin Mann W712/75', 'Moottorin osat', 48, 8.90, 'Öljynsuodatin sopii useille VW, Audi ja Seat -malleille'],
@@ -72,7 +87,7 @@ app.get('/api/products', (req, res) => {
   }
   if (conditions.length) query += ' WHERE ' + conditions.join(' AND ');
   query += ' ORDER BY name ASC';
-  const products = db.prepare(query).all(...params);
+  const products = db.prepare(query).all(...params).map(serializeProduct);
   res.json(products);
 });
 
@@ -84,15 +99,15 @@ app.get('/api/categories', (req, res) => {
 
 // POST add product
 app.post('/api/products', (req, res) => {
-  const { name, category, quantity, price, description } = req.body;
+  const { name, category, quantity, price, description, imageUrl } = req.body;
   if (!name || !category || quantity == null || price == null) {
     return res.status(400).json({ error: 'name, category, quantity, and price are required' });
   }
   const result = db.prepare(
-    'INSERT INTO products (name, category, quantity, price, description) VALUES (?, ?, ?, ?, ?)'
-  ).run(name, category, parseInt(quantity), parseFloat(price), description || '');
+    'INSERT INTO products (name, category, quantity, price, description, image_url) VALUES (?, ?, ?, ?, ?, ?)'
+  ).run(name, category, parseInt(quantity), parseFloat(price), description || '', (imageUrl || '').trim());
   const product = db.prepare('SELECT * FROM products WHERE id = ?').get(result.lastInsertRowid);
-  res.status(201).json(product);
+  res.status(201).json(serializeProduct(product));
 });
 
 // PATCH update quantity
@@ -105,7 +120,7 @@ app.patch('/api/products/:id/quantity', (req, res) => {
   const result = db.prepare('UPDATE products SET quantity = ? WHERE id = ?').run(parseInt(quantity), id);
   if (result.changes === 0) return res.status(404).json({ error: 'Product not found' });
   const product = db.prepare('SELECT * FROM products WHERE id = ?').get(id);
-  res.json(product);
+  res.json(serializeProduct(product));
 });
 
 // DELETE product

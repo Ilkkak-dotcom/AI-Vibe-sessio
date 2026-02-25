@@ -172,9 +172,21 @@ main {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  overflow: hidden;
   transition: transform var(--transition), box-shadow var(--transition);
 }
 .product-card:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,.1); }
+.product-image-wrap {
+  margin: -20px -20px 2px -20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+.product-image {
+  width: 100%;
+  height: 165px;
+  object-fit: cover;
+  display: block;
+}
 .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
 .card-title { font-size: 16px; font-weight: 600; color: var(--text); line-height: 1.3; }
 .card-actions { display: flex; gap: 4px; flex-shrink: 0; }
