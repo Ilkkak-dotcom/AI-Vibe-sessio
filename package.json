@@ -1,0 +1,26 @@
+{
+  "name": "ai-vibe-sessio",
+  "version": "1.0.0",
+  "description": "Kurssin harjoitus",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ilkkak-dotcom/AI-Vibe-sessio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Ilkkak-dotcom/AI-Vibe-sessio/issues"
+  },
+  "homepage": "https://github.com/Ilkkak-dotcom/AI-Vibe-sessio#readme",
+  "dependencies": {
+    "better-sqlite3": "^12.6.2",
+    "express": "^5.2.1"
+  }
+}
