@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoVarasto – Varaosien hallinta</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🔧</span>
+        <span class="logo-text">AutoVarasto</span>
+      </div>
+      <button class="btn btn-primary" id="openAddModal">+ Lisää tuote</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Hae varaosaa..." />
+      </div>
+      <select id="categoryFilter">
+        <option value="">Kaikki kategoriat</option>
+      </select>
+      <div class="stats" id="statsBar"></div>
+    </div>
+
+    <div id="productGrid" class="product-grid"></div>
+    <div id="emptyState" class="empty-state hidden">
+      <div class="empty-icon">🔩</div>
+      <p>Tuotteita ei löytynyt</p>
+    </div>
+  </main>
+
+  <!-- Add Product Modal -->
+  <div id="addModal" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Lisää uusi tuote</h2>
+        <button class="modal-close" id="closeAddModal">✕</button>
+      </div>
+      <form id="addProductForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="prodName">Tuotteen nimi *</label>
+            <input type="text" id="prodName" required placeholder="esim. Öljynsuodatin Bosch" />
+          </div>
+          <div class="form-group">
+            <label for="prodCategory">Kategoria *</label>
+            <input type="text" id="prodCategory" required list="categoryList" placeholder="esim. Moottorin osat" />
+            <datalist id="categoryList"></datalist>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="prodQuantity">Kappalemäärä *</label>
+            <input type="number" id="prodQuantity" required min="0" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label for="prodPrice">Hinta (€) *</label>
+            <input type="number" id="prodPrice" required min="0" step="0.01" placeholder="0.00" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="prodDescription">Kuvaus</label>
+          <textarea id="prodDescription" rows="2" placeholder="Valinnainen kuvaus tuotteesta..."></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="cancelAdd">Peruuta</button>
+          <button type="submit" class="btn btn-primary">Lisää tuote</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete Confirm Modal -->
+  <div id="deleteModal" class="modal-overlay hidden">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2>Poista tuote</h2>
+        <button class="modal-close" id="closeDeleteModal">✕</button>
+      </div>
+      <p class="delete-message">Haluatko varmasti poistaa tuotteen <strong id="deleteProductName"></strong>? Toimintoa ei voi peruuttaa.</p>
+      <div class="form-actions">
+        <button class="btn btn-secondary" id="cancelDelete">Peruuta</button>
+        <button class="btn btn-danger" id="confirmDelete">Poista</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
