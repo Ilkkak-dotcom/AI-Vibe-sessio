@@ -51,7 +51,7 @@ async function loadProducts() {
 async function loadCategories() {
   const cats = await apiFetch('/api/categories');
   const datalist = document.getElementById('categoryList');
-  categoryFilter.innerHTML = '<option value="">All Categories</option>';
+  categoryFilter.innerHTML = '<option value="">Kaikki kategoriat</option>';
   cats.forEach(c => {
     const opt = document.createElement('option');
     opt.value = c; opt.textContent = c;
@@ -71,7 +71,7 @@ function renderProducts() {
     return;
   }
   emptyState.classList.add('hidden');
-  statsBar.textContent = `${products.length} product${products.length !== 1 ? 's' : ''}`;
+  statsBar.textContent = `${products.length} tuote${products.length !== 1 ? 'tta' : ''}`;
 
   products.forEach(p => {
     const card = document.createElement('div');
@@ -172,7 +172,7 @@ addForm.addEventListener('submit', async (e) => {
     closeAdd();
     await loadCategories();
     await loadProducts();
-    showToast(`"${body.name}" added successfully!`);
+    showToast(`"${body.name}" lisätty varastoon!`);
   } catch (err) {
     showToast(err.message, 'error');
   }
@@ -192,7 +192,7 @@ document.getElementById('confirmDelete').addEventListener('click', async () => {
   try {
     await apiFetch(`/api/products/${id}`, { method: 'DELETE' });
     await loadProducts();
-    showToast(`"${product?.name || 'Product'}" deleted.`);
+    showToast(`"${product?.name || 'Tuote'}" poistettu.`);
   } catch (err) {
     showToast(err.message, 'error');
   }

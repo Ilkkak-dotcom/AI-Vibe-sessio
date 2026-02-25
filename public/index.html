@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inventory Manager</title>
+  <title>AutoVarasto – Varaosien hallinta</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
     <div class="header-inner">
       <div class="logo">
-        <span class="logo-icon">📦</span>
-        <span class="logo-text">Inventory Manager</span>
+        <span class="logo-icon">🔧</span>
+        <span class="logo-text">AutoVarasto</span>
       </div>
-      <button class="btn btn-primary" id="openAddModal">+ Add Product</button>
+      <button class="btn btn-primary" id="openAddModal">+ Lisää tuote</button>
     </div>
   </header>
 
@@ -21,18 +21,18 @@
     <div class="toolbar">
       <div class="search-wrapper">
         <span class="search-icon">🔍</span>
-        <input type="text" id="searchInput" placeholder="Search products..." />
+        <input type="text" id="searchInput" placeholder="Hae varaosaa..." />
       </div>
       <select id="categoryFilter">
-        <option value="">All Categories</option>
+        <option value="">Kaikki kategoriat</option>
       </select>
       <div class="stats" id="statsBar"></div>
     </div>
 
     <div id="productGrid" class="product-grid"></div>
     <div id="emptyState" class="empty-state hidden">
-      <div class="empty-icon">📭</div>
-      <p>No products found</p>
+      <div class="empty-icon">🔩</div>
+      <p>Tuotteita ei löytynyt</p>
     </div>
   </main>
 
@@ -40,38 +40,38 @@
   <div id="addModal" class="modal-overlay hidden">
     <div class="modal">
       <div class="modal-header">
-        <h2>Add New Product</h2>
+        <h2>Lisää uusi tuote</h2>
         <button class="modal-close" id="closeAddModal">✕</button>
       </div>
       <form id="addProductForm">
         <div class="form-row">
           <div class="form-group">
-            <label for="prodName">Product Name *</label>
-            <input type="text" id="prodName" required placeholder="e.g. Wireless Keyboard" />
+            <label for="prodName">Tuotteen nimi *</label>
+            <input type="text" id="prodName" required placeholder="esim. Öljynsuodatin Bosch" />
           </div>
           <div class="form-group">
-            <label for="prodCategory">Category *</label>
-            <input type="text" id="prodCategory" required list="categoryList" placeholder="e.g. Electronics" />
+            <label for="prodCategory">Kategoria *</label>
+            <input type="text" id="prodCategory" required list="categoryList" placeholder="esim. Moottorin osat" />
             <datalist id="categoryList"></datalist>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label for="prodQuantity">Quantity *</label>
+            <label for="prodQuantity">Kappalemäärä *</label>
             <input type="number" id="prodQuantity" required min="0" placeholder="0" />
           </div>
           <div class="form-group">
-            <label for="prodPrice">Price (€) *</label>
+            <label for="prodPrice">Hinta (€) *</label>
             <input type="number" id="prodPrice" required min="0" step="0.01" placeholder="0.00" />
           </div>
         </div>
         <div class="form-group">
-          <label for="prodDescription">Description</label>
-          <textarea id="prodDescription" rows="2" placeholder="Optional description..."></textarea>
+          <label for="prodDescription">Kuvaus</label>
+          <textarea id="prodDescription" rows="2" placeholder="Valinnainen kuvaus tuotteesta..."></textarea>
         </div>
         <div class="form-actions">
-          <button type="button" class="btn btn-secondary" id="cancelAdd">Cancel</button>
-          <button type="submit" class="btn btn-primary">Add Product</button>
+          <button type="button" class="btn btn-secondary" id="cancelAdd">Peruuta</button>
+          <button type="submit" class="btn btn-primary">Lisää tuote</button>
         </div>
       </form>
     </div>
@@ -81,13 +81,13 @@
   <div id="deleteModal" class="modal-overlay hidden">
     <div class="modal modal-sm">
       <div class="modal-header">
-        <h2>Delete Product</h2>
+        <h2>Poista tuote</h2>
         <button class="modal-close" id="closeDeleteModal">✕</button>
       </div>
-      <p class="delete-message">Are you sure you want to delete <strong id="deleteProductName"></strong>? This action cannot be undone.</p>
+      <p class="delete-message">Haluatko varmasti poistaa tuotteen <strong id="deleteProductName"></strong>? Toimintoa ei voi peruuttaa.</p>
       <div class="form-actions">
-        <button class="btn btn-secondary" id="cancelDelete">Cancel</button>
-        <button class="btn btn-danger" id="confirmDelete">Delete</button>
+        <button class="btn btn-secondary" id="cancelDelete">Peruuta</button>
+        <button class="btn btn-danger" id="confirmDelete">Poista</button>
       </div>
     </div>
   </div>
